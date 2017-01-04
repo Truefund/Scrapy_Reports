@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import time
 
 
 class ReportsSpider(scrapy.Spider):
@@ -19,10 +20,13 @@ class ReportsSpider(scrapy.Spider):
         author = response.css('div.left_02 div.details_01_l span::text').extract_first()
         time_pub = response.css('div.left_02 div.details_01_l span::text')[1].extract()
         content = response.css('div.left_02 div.content_01').extract_first()
+
+        time_stamp = int(time.mktime(time.strptime(time_pub, u"%Y年%m月%d日 %H:%M:%S")))
         yield {
             # 'raw': article,
             'title': title,
             'author': author,
             'time_pub': time_pub,
-            # 'content': content
+            'content': content,
+            'time_stamp': time_stamp
         }
