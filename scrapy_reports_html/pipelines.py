@@ -31,7 +31,8 @@ class MongoPipeline(object):
         self.client.close()
 
     def process_item(self, item, spider):
-        cursor = self.db[self.collection_name].find({"title": dict(item)["title"]})
+        # 按url为唯一的key，避免重复插入
+        cursor = self.db[self.collection_name].find({"url": dict(item)["url"]})
         count = 0
         for item in cursor:
             count += 1

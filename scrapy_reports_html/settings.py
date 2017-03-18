@@ -15,7 +15,7 @@ SPIDER_MODULES = ['scrapy_reports_html.spiders']
 NEWSPIDER_MODULE = 'scrapy_reports_html.spiders'
 
 ITEM_PIPELINES = {
-    # 'scrapy_reports_html.pipelines.MongoPipeline': 100
+    'scrapy_reports_html.pipelines.MongoPipeline': 100
 }
 MONGO_URI = 'localhost'
 MONGO_DATABASE = 'db_reports_html'

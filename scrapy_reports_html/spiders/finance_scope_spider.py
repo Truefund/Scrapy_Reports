@@ -5,7 +5,12 @@ import time
 
 class FinanceScopeSpider(scrapy.Spider):
     name = "finance_scope"
-    start_urls = ["http://finance.jrj.com.cn/list/guoneicj.shtml"]
+    start_urls = [
+        "http://finance.jrj.com.cn/list/guoneicj.shtml"
+    ]
+    # finance.jrj.com.cn 的特征，翻前10页面url格式规律
+    for i in range(2, 11):
+        start_urls.append(start_urls[0][:-6]+"-"+str(i)+start_urls[0][-6:])
 
     def parse(self, response):
         pages = response.css('ul.list2 li a::attr(href)').extract()
@@ -43,11 +48,13 @@ class FinanceScopeSpider(scrapy.Spider):
                 author = authorRaw[1].strip("\r\n")
 
         yield {
+            'url': response.url,
+            'crawler': cls.name,
             'title': title,
             'time_pub': timePub,
             'time_stamp': timeStamp,
             'source': source,
             'author': author,
             'keyword': keyword,
-            # 'content': content
+            'content': content
         }
