@@ -32,6 +32,8 @@ class MongoPipeline(object):
 
     def process_item(self, item, spider):
         # 按url为唯一的key，避免重复插入
+        if "url" not in dict(item):
+            return False
         count = self.db[self.collection_name].find({"url": dict(item)["url"]}).count()
         if count == 0:
             self.db[self.collection_name].insert(dict(item))
