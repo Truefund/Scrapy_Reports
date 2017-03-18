@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import time
+from scrapy_reports_html.utils import data_maintain_util
 
 
 class FinanceScopeSpider(scrapy.Spider):
@@ -15,7 +16,11 @@ class FinanceScopeSpider(scrapy.Spider):
     def parse(self, response):
         pages = response.css('ul.list2 li a::attr(href)').extract()
         for page in pages:
-            yield scrapy.Request(page, callback=self.parseDetailPage)
+            # 先判断是否爬过这个详情url了
+            if data_maintain_util.DataMaintainUtil.isUrlExist(page):
+                continue
+            else:
+                yield scrapy.Request(page, callback=self.parseDetailPage)
 
     @classmethod
     def parseDetailPage(cls, response):

@@ -19,6 +19,7 @@ ITEM_PIPELINES = {
 }
 MONGO_URI = 'localhost'
 MONGO_DATABASE = 'db_reports_html'
+MONGO_COLLECTIOIN_REPORTS = 'coll_reports_html'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

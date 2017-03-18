@@ -32,10 +32,7 @@ class MongoPipeline(object):
 
     def process_item(self, item, spider):
         # 按url为唯一的key，避免重复插入
-        cursor = self.db[self.collection_name].find({"url": dict(item)["url"]})
-        count = 0
-        for item in cursor:
-            count += 1
+        count = self.db[self.collection_name].find({"url": dict(item)["url"]}).count()
         if count == 0:
             self.db[self.collection_name].insert(dict(item))
 
